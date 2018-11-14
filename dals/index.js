@@ -27,3 +27,10 @@ exports.createVote = async (params) => {
         answer: params.answer
     });
 };
+
+exports.findPolls = async (params) => {
+
+    return Poll.find({
+        // params
+    });
+};

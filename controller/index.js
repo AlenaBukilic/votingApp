@@ -32,19 +32,19 @@ exports.viewPolls = async (req, res) => {
 
     const params = res.params
 
-    return dals.find(params);
+    return dals.findPolls(params);
 }
 
 exports.viewUsers =  async (req, res) => {
 
     const params = res.params
 
-    return dals.find(params);
+    return dals.findUsers(params);
 }
 
 exports.viewVotes =  async (req, res) => {
 
     const params = res.params
 
-    return dals.find(params);
+    return dals.findVotes(params);
 }
