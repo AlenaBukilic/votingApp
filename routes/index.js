@@ -4,15 +4,81 @@ const Joi = require('joi');
 module.exports = [
     {
         method: 'POST',
-        path: '/votes',
-        handler: controller.create,
+        path: '/users',
+        handler: controller.createUsers,
         options: {
             validate: {
                 payload: {
-                    title: Joi.string().min(3).max(30),
-                    description: Joi.string().min(3).max(100)
+                    email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+                    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
                 }
             }
         }
-    }
+    },
+    {
+        method: 'POST',
+        path: '/{userId}/polls',
+        handler: controller.createPolls,
+        options: {
+            validate: {
+                payload: {
+                    question: Joi.string().required(),
+                    answers: Joi.array().required().default([])
+                },
+                params: {
+                    userId: Joi.string().required()
+                }
+            }
+        }
+    },
+    {
+        method: 'POST',
+        path: '/{pollId}/votes',
+        handler: controller.createVotes,
+        options: {
+            validate: {
+                payload: {
+                    answer: Joi.string().required()
+                },
+                params: {
+                    pollId: Joi.string().required()
+                }
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/polls/{id}',
+        handler: controller.viewPolls,
+        options: {
+            validate: {
+                params: {
+                    id: Joi.string().min(24).max(24)
+                }
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/users/{id}',
+        handler: controller.viewUsers,
+        options: {
+            validate: {
+                params: {
+                    id: Joi.string().min(24).max(24)
+                }
+            }
+        }
+    },    {
+        method: 'GET',
+        path: '/votes/{id}',
+        handler: controller.viewVotes,
+        options: {
+            validate: {
+                params: {
+                    id: Joi.string().min(24).max(24)
+                }
+            }
+        }
+    },
 ];

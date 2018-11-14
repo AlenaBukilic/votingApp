@@ -7,7 +7,7 @@ const voteRoute = require('./routes/index');
 
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (err) => {
   console.error(`error not connected to the db`);
