@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const mongoose = require('mongoose');
+const Inert = require('inert');
 
 const voteRoute = require('./routes/index');
 
@@ -21,26 +22,34 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: function(request, h) {
-        return 'Hello world!';
+async function start() {
+
+    await server.register(Inert);
+
+    server.route({
+        method: 'GET',
+        path: '/{parmas*}',
+        config: {
+            auth: false
+        },
+        handler: {
+            directory: {
+                path: 'public',
+                index: ['index.html']
+            }
+        }
+    });
+    server.route(voteRoute);
+
+    try {
+        await server.start();
     }
-})
+    catch (err) {
+        console.log(err);
+        process.exit(1);
+    }
 
-server.route(voteRoute);
-
-const init = async () => {
-
-    await server.start();
     console.log(`Server running at: ${server.info.uri}`);
-};
+}
 
-process.on('unhandledRejection', (err) => {
-
-    console.log(err);
-    process.exit(1);
-});
-
-init();
+start();

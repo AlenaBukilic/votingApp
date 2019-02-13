@@ -69,7 +69,8 @@ module.exports = [
                 }
             }
         }
-    },    {
+    },
+    {
         method: 'GET',
         path: '/votes/{id}',
         handler: controller.viewVotes,

@@ -30,21 +30,21 @@ exports.createVotes = async (req, res) => {
 
 exports.viewPolls = async (req, res) => {
 
-    const params = res.params
+    const params = req.params
 
     return dals.findPolls(params);
 }
 
 exports.viewUsers =  async (req, res) => {
 
-    const params = res.params
+    const params = req.params
 
     return dals.findUsers(params);
 }
 
 exports.viewVotes =  async (req, res) => {
 
-    const params = res.params
+    const params = req.params
 
     return dals.findVotes(params);
 }
