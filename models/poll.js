@@ -11,8 +11,8 @@ const Schema = mongoose.Schema;
 const PollSchema = new Schema({
     question: { type: String, required: true },
     answers: { type: Array, required: true },
-    votes: { type: Object, default: null },
-    creator: { type: String, required: true } // type: Schema.Types.ObjectId
+    votes: { type: Array, default: [] },
+    createdBy: { type: String, required: true } // type: Schema.Types.ObjectId
 });
 
 module.exports = mongoose.model('Poll', PollSchema);

@@ -4,7 +4,7 @@ const Joi = require('joi');
 module.exports = [
     {
         method: 'POST',
-        path: '/users',
+        path: '/api/users',
         handler: controller.createUsers,
         options: {
             validate: {
@@ -17,7 +17,7 @@ module.exports = [
     },
     {
         method: 'POST',
-        path: '/{userId}/polls',
+        path: '/api/{userId}/polls',
         handler: controller.createPolls,
         options: {
             validate: {
@@ -33,23 +33,29 @@ module.exports = [
     },
     {
         method: 'POST',
-        path: '/{pollId}/votes',
+        path: '/api/{userId}/polls/{pollId}/votes',
         handler: controller.createVotes,
         options: {
             validate: {
                 payload: {
-                    answer: Joi.string().required()
+                    answer: Joi.string().required().min(1)
                 },
                 params: {
-                    pollId: Joi.string().required()
+                    pollId: Joi.string().required(),
+                    userId: Joi.string().required()
                 }
             }
         }
     },
     {
         method: 'GET',
-        path: '/polls/{id}',
-        handler: controller.viewPolls,
+        path: '/api/polls',
+        handler: controller.viewPolls
+    },
+    {
+        method: 'GET',
+        path: '/api/polls/{id}',
+        handler: controller.viewPoll,
         options: {
             validate: {
                 params: {
@@ -60,7 +66,7 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/users/{id}',
+        path: '/api/users/{id}',
         handler: controller.viewUsers,
         options: {
             validate: {
@@ -72,7 +78,7 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/votes/{id}',
+        path: '/api/votes/{id}',
         handler: controller.viewVotes,
         options: {
             validate: {

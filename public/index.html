@@ -18,7 +18,7 @@
 </html> -->
 
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="VotingApp">
   <head>
     <base href="/">
     <meta charset="UTF-8">
@@ -26,13 +26,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Voting App</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
-    <script src="app.js"></script>
+    <script src="./app.js"></script>
   </head>
   <body>
         <div ng-controller="MainController">
             <input type="text" ng-model="name">
             Inside my input is: {{name}}
         </div>
+        <link rel="shortcut icon" href="/folder-name/logo.ico">
+        <button ui-sref='main'>Main</button>
+        <button ui-sref='test'>Test</button>
+
+        <ui-view></ui-view>
+
+        <script src="lib/angular.min.js"></script>
+        <script src="lib/angular-ui-router.min.js"></script>
     </body>
 </html>
