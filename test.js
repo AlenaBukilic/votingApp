@@ -1,5 +1,9 @@
 const Hapi = require('hapi');
-const server = new Hapi.Server();
+
+const server = Hapi.server({
+    port: process.env.PORT,
+    host: 'localhost'
+});
 
 const options = {
     ops: {
@@ -39,11 +43,36 @@ const options = {
     }
 };
 
-await server.register({
-    plugin: require('good'),
-    options,
+server.route({
+    method: 'GET',
+    path: '/index',
+    handler: (request, h) => {
+        return h.response('index');
+    }
 });
 
-await server.start();
+server.route({
+    method: 'GET',
+    path: '/about',
+    handler: (request, h) => {
+        request.log(["test"]);
+        return h.response({ user: { name: 'Alena', email: 'alena@test.com'}});
+    }
+});
 
-console.info(`Server started at ${ server.info.uri }`);
+const init = async () => {
+
+    await server.register({
+        plugin: require('good'),
+        options
+    });
+    await server.start();
+    console.log(`Server running at: ${server.info.uri}`);
+};
+
+process.on('unhandledRejection', (err) => {
+    console.log(err);
+    process.exit(1);
+});
+
+init();

@@ -4,6 +4,7 @@ const Hapi = require('hapi');
 const mongoose = require('mongoose');
 const Inert = require('inert');
 const Path = require('path');
+const Squeeze = require('good-squeeze');
 
 const voteRoute = require('./routes/index');
 
@@ -82,6 +83,21 @@ server.route({
 });
 server.route(voteRoute);
 
+// const options = {
+//     includes: {
+//         request: ["headers", "payload"],
+//         response: ["payload"]
+//     },
+//     ops: {
+//         interval: 1000
+//     },
+//     reporters: {
+//         console: [{
+//             module: 'good-console'
+//         }, 'stdout']
+//     }
+// };
+
 const options = {
     includes: {
         request: ["headers", "payload"],
@@ -92,33 +108,20 @@ const options = {
     },
     reporters: {
         console: [{
-            module: 'good-console'
-        }, 'stdout']
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [{
+                    log: ['database', 'api'],
+                    response: '*',
+                    error: '*'
+                }]
+            },
+            {
+                module: 'good-console'
+            }, 'stdout'
+        ]
     }
 };
-
-// const options = {
-//     includes: {
-//         request: ["payload"]
-//     },
-//     ops: {
-//         interval: 1000
-//     },
-//     reporters: {
-//         console: [{
-//                 module: 'good-squeeze',
-//                 name: 'Squeeze',
-//                 args: [{
-//                     log: '*',
-//                     response: '*'
-//                 }]
-//             },
-//             {
-//                 module: 'good-console'
-//             }, 'stdout'
-//         ]p
-//     }
-// };
 
 const init = async () => {
 
@@ -128,9 +131,9 @@ const init = async () => {
     });
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
-
-
 };
+
+// test/add hapi-swagger
 
 process.on('unhandledRejection', (err) => {
     console.log(err);
